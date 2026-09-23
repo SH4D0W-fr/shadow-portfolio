@@ -8,6 +8,7 @@
 @theme inline {
     --font-heading: var(--font-sans);
     --font-sans: 'Geist Variable', sans-serif;
+    --color-brand: var(--brand);
     --color-sidebar-ring: var(--sidebar-ring);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -49,6 +50,7 @@
 }
 
 :root {
+    --brand: oklch(0.54 0.245 287);
     --background: oklch(1 0 0);
     --foreground: oklch(0.145 0 0);
     --card: oklch(1 0 0);
@@ -84,6 +86,7 @@
 }
 
 .dark {
+    --brand: oklch(0.7 0.19 287);
     --background: oklch(0.145 0 0);
     --foreground: oklch(0.985 0 0);
     --card: oklch(0.205 0 0);
@@ -127,4 +130,82 @@
   html {
     @apply font-sans;
     }
+}
+/* ------------------------------------------------------------------ */
+/* Portfolio                                                           */
+/* ------------------------------------------------------------------ */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* compense le header collant lors de la navigation par ancre */
+    scroll-padding-top: 5rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  ::selection {
+    @apply bg-foreground text-background;
+  }
+}
+
+@layer utilities {
+  /* Trame de fond discrète, teintée par les tokens du thème. */
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, var(--border) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--border) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+
+  /* Halo coloré derrière le héros. */
+  .bg-glow {
+    background: radial-gradient(
+      60% 60% at 50% 40%,
+      color-mix(in oklch, var(--brand), transparent 70%),
+      transparent 70%
+    );
+  }
+
+  .text-gradient {
+    background: linear-gradient(
+      120deg,
+      var(--foreground) 0%,
+      color-mix(in oklch, var(--foreground), var(--brand) 55%) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+/* Animation du message de bienvenue. */
+@keyframes greeting-fade {
+  0% { opacity: 0; transform: translateY(10px); }
+  25% { opacity: 1; transform: translateY(0); }
+  75% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-10px); }
+}
+
+@keyframes intro-out {
+  to { opacity: 0; visibility: hidden; }
+}
+
+.animate-greeting {
+  animation: greeting-fade 500ms ease both;
+}
+
+.animate-intro-out {
+  animation: intro-out 400ms ease 100ms both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-greeting,
+  .animate-intro-out {
+    animation-duration: 1ms;
+  }
 }
