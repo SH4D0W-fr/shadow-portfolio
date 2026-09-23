@@ -86,5 +86,15 @@ export const projects = [
 export const socials = [
   { label: "GitHub", href: "https://github.com/SH4D0W-fr", icon: "github" },
   // { label: "LinkedIn", href: "https://linkedin.com", icon: "linkedin" },
-  { label: "Email", href: "mailto:contact@shadow.dev", icon: "mail" },
+  { label: "Email", href: `mailto:${profile.email}`, icon: "mail" },
 ];
+
+/**
+ * Clé d'accès Web3Forms, utilisée par le formulaire de contact.
+ *
+ * Publique par conception : elle ne fait que router le message vers l'adresse
+ * associée, et se retrouve de toute façon en clair dans le bundle JavaScript.
+ * Ce n'est donc pas un secret — inutile de la sortir dans un `.env`.
+ * Pour la révoquer ou la régénérer : https://web3forms.com
+ */
+export const web3formsKey = "72b06449-ecdf-4047-b1a7-485d081b3bfa";

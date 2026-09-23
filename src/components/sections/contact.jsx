@@ -1,5 +1,13 @@
 import { useState } from "react";
-import { CheckIcon, CopyIcon, MailIcon, SendIcon } from "lucide-react";
+import {
+  CheckIcon,
+  CircleAlertIcon,
+  CircleCheckIcon,
+  CopyIcon,
+  LoaderCircleIcon,
+  MailIcon,
+  SendIcon,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -7,7 +15,9 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Reveal } from "@/components/reveal";
 import { Section, SectionHeader } from "@/components/section";
-import { profile } from "@/data/portfolio";
+import { profile, web3formsKey } from "@/data/portfolio";
+
+const ENDPOINT = "https://api.web3forms.com/submit";
 
 /** Copie l'adresse e-mail et confirme brièvement. */
 function CopyEmailButton() {
@@ -30,17 +40,62 @@ function CopyEmailButton() {
   );
 }
 
-export function Contact() {
-  const [sent, setSent] = useState(false);
+/** Retour visuel sous le bouton d'envoi. */
+function FormStatus({ status }) {
+  if (status === "idle") return null;
 
-  /**
-   * Ébauche : aucun back-end n'est branché pour l'instant.
-   * Remplacer par un appel à votre service (Formspree, Resend, API maison…).
-   */
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setSent(true);
+  const messages = {
+    sending: { icon: LoaderCircleIcon, text: "Envoi en cours…", className: "" },
+    success: {
+      icon: CircleCheckIcon,
+      text: "Message envoyé, merci ! Je répondrai le plus vite possible !",
+      className: "text-foreground",
+    },
+    error: {
+      icon: CircleAlertIcon,
+      text: "L'envoi a échoué. Réessayez ou écrivez-moi directement.",
+      className: "text-destructive",
+    },
   };
+
+  const { icon: Icon, text, className } = messages[status];
+
+  return (
+    <p className={`flex items-center gap-1.5 text-sm text-muted-foreground ${className}`}>
+      <Icon className={`size-4 ${status === "sending" ? "animate-spin" : ""}`} />
+      {text}
+    </p>
+  );
+}
+
+export function Contact() {
+  const [status, setStatus] = useState("idle");
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    // Capturé avant l'await : React vide `currentTarget` dès la fin du handler.
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    data.append("access_key", web3formsKey);
+    data.append("subject", `Portfolio — nouveau message de ${data.get("name")}`);
+
+    setStatus("sending");
+
+    try {
+      const response = await fetch(ENDPOINT, { method: "POST", body: data });
+      const result = await response.json();
+
+      if (!result.success) throw new Error(result.message);
+
+      form.reset();
+      setStatus("success");
+    } catch {
+      setStatus("error");
+    }
+  };
+
+  const sending = status === "sending";
 
   return (
     <Section id="contact">
@@ -83,14 +138,28 @@ export function Contact() {
                   />
                 </div>
 
-                <div className="flex items-center gap-3">
-                  <Button type="submit" size="lg">
-                    Envoyer
-                    <SendIcon data-icon="inline-end" />
+                {/* Piège à robots : Web3Forms rejette l'envoi si ce champ est rempli. */}
+                <input
+                  type="checkbox"
+                  name="botcheck"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  className="hidden"
+                />
+
+                <div className="flex flex-wrap items-center gap-3">
+                  <Button type="submit" size="lg" disabled={sending}>
+                    {sending ? "Envoi…" : "Envoyer"}
+                    {sending ? (
+                      <LoaderCircleIcon data-icon="inline-end" className="animate-spin" />
+                    ) : (
+                      <SendIcon data-icon="inline-end" />
+                    )}
                   </Button>
-                  <p aria-live="polite" className="text-sm text-muted-foreground">
-                    {sent ? "Merci ! Le formulaire n'est pas encore relié à un service d'envoi." : null}
-                  </p>
+                  <div aria-live="polite">
+                    <FormStatus status={status} />
+                  </div>
                 </div>
               </form>
             </CardContent>
@@ -122,7 +191,7 @@ export function Contact() {
               <div>
                 <p className="text-sm font-medium">Localisation</p>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  {profile.location} — missions à distance.
+                  {profile.location} - en remote.
                 </p>
               </div>
             </CardContent>
