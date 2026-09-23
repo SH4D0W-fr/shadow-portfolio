@@ -52,39 +52,39 @@ export const projects = [
     tags: ["Python", "Electron.js", "React"],
     year: "2026",
     featured: true,
-    links: { demo: "https://github.com/SH4D0W-fr/uno-python/releases/download/v2.0/Uno-Installer.exe", repo: "https://github.com/SH4D0W-fr/uno-python" },
+    links: { demo: "", repo: "https://github.com/SH4D0W-fr/uno-python" },
   },
   {
-    title: "Atlas Design System",
+    title: "Background Remover",
     description:
-      "Bibliothèque de 40+ composants accessibles, documentée sous Storybook et publiée en interne.",
-    tags: ["Design System", "Tailwind", "Storybook"],
-    year: "2025",
+      "Site internet permettant de retirer et de détourer des images dans le but de retirer leurs fonds.",
+    tags: ["HTML/CSS", "Python", "Docker", "API"],
+    year: "2026",
     featured: true,
-    links: { demo: "#", repo: "#" },
+    links: { demo: "https://removebg.lushstudio.dev", repo: "" },
   },
   {
-    title: "Orbit CLI",
+    title: "lush-core",
     description:
-      "Générateur de projets en ligne de commande : templates, presets et scripts de déploiement.",
-    tags: ["Node.js", "CLI", "DX"],
-    year: "2024",
+      "Un core FiveM complet qui regroupe un ensemble de fonctionnalité avec un système de configuration dynamique directement en jeu.",
+    tags: ["Lua", "React", "SQL"],
+    year: "2026",
     featured: false,
-    links: { demo: "", repo: "#" },
+    links: { demo: "", repo: "" },
   },
   {
-    title: "Lumen",
+    title: "Générateur de mot de passe",
     description:
-      "Site vitrine d'un studio photo, animations au scroll et images optimisées, 100/100 Lighthouse.",
-    tags: ["Next.js", "Motion", "SEO"],
-    year: "2024",
+      "Un logiciel simple qui permet de générer des mots de passe.",
+    tags: ["C#"],
+    year: "2025",
     featured: false,
-    links: { demo: "#", repo: "" },
+    links: { demo: "", repo: "https://github.com/SH4D0W-fr/Password_Generator_CSharp" },
   },
 ];
 
 export const socials = [
-  { label: "GitHub", href: "https://github.com", icon: "github" },
+  { label: "GitHub", href: "https://github.com/SH4D0W-fr", icon: "github" },
   // { label: "LinkedIn", href: "https://linkedin.com", icon: "linkedin" },
   { label: "Email", href: "mailto:contact@shadow.dev", icon: "mail" },
 ];
