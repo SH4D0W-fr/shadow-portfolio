@@ -34,7 +34,7 @@ export function Hero() {
 
           <Reveal delay={80}>
             <h1 className="mt-6 font-heading text-4xl font-medium tracking-tight text-balance sm:text-5xl md:text-6xl">
-              <span className="text-gradient">{profile.name}</span>
+              <span className="text-gradient">{profile.name}</span>{" "}
               <span className="block text-muted-foreground">{profile.role}</span>
             </h1>
           </Reveal>

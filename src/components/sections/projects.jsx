@@ -18,7 +18,9 @@ function ProjectCard({ project }) {
   return (
     <Card className="h-full transition-all duration-300 hover:-translate-y-1 hover:ring-foreground/20">
       <CardHeader>
-        <CardTitle className="text-lg">{project.title}</CardTitle>
+        <CardTitle className="text-lg">
+          <h3>{project.title}</h3>
+        </CardTitle>
         <CardDescription>{project.description}</CardDescription>
         <CardAction>
           <Badge variant="ghost" className="text-muted-foreground">

@@ -25,7 +25,7 @@ export function Stack() {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     {Icon ? <Icon className="size-4 text-muted-foreground" /> : null}
-                    {group.title}
+                    <h3>{group.title}</h3>
                   </CardTitle>
                 </CardHeader>
                 <CardContent>

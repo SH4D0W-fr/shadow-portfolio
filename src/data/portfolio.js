@@ -1,6 +1,6 @@
 export const profile = {
   name: "SHADOW",
-  role: "Développeur",
+  role: "Développeur FiveM & Python",
   location: "France",
   available: true,
   tagline:
@@ -98,3 +98,6 @@ export const socials = [
  * Pour la révoquer ou la régénérer : https://web3forms.com
  */
 export const web3formsKey = "72b06449-ecdf-4047-b1a7-485d081b3bfa";
+
+/** Origine publique du site, sans barre oblique finale. Sert aux donnees structurees. */
+export const siteUrl = "https://shadow-dev.fr";

@@ -1,0 +1,19 @@
+{
+  "name": "SHADOW — Développeur FiveM, Python & C#",
+  "short_name": "SHADOW",
+  "description": "Scripts Lua sur mesure pour serveurs FiveM, applications Python et C#, outils web.",
+  "lang": "fr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#0a0a0a",
+  "icons": [
+    {
+      "src": "/dev.png",
+      "sizes": "200x200",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
