@@ -1,7 +1,6 @@
 import { useCallback, useState } from "react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { GreetingIntro } from "@/components/greeting-intro";
-import { markIntroSeen, shouldSkipIntro } from "@/lib/intro";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Hero } from "@/components/sections/hero";
@@ -11,12 +10,9 @@ import { Stack } from "@/components/sections/stack";
 import { Contact } from "@/components/sections/contact";
 
 function App() {
-  const [intro, setIntro] = useState(() => !shouldSkipIntro());
-
-  const finishIntro = useCallback(() => {
-    markIntroSeen();
-    setIntro(false);
-  }, []);
+  // L'intro joue à chaque chargement de la page.
+  const [intro, setIntro] = useState(true);
+  const finishIntro = useCallback(() => setIntro(false), []);
 
   return (
     <TooltipProvider>

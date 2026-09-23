@@ -203,9 +203,14 @@
   animation: intro-out 400ms ease 100ms both;
 }
 
+/*
+ * En mouvement reduit, les salutations defilent toujours mais sans fondu :
+ * `animation: none` laisse le texte pleinement visible (une duree tres courte
+ * combinee a `fill-mode: both` le figerait a opacity 0).
+ */
 @media (prefers-reduced-motion: reduce) {
   .animate-greeting,
   .animate-intro-out {
-    animation-duration: 1ms;
+    animation: none;
   }
 }
