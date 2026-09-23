@@ -1,53 +1,47 @@
-import { useState, useEffect } from 'react'
-import './App.css'
-
-const greetings = [
-  "Welcome", "Bienvenue", "Bienvenido", "Willkommen", "Benvenuto",
-  "Bem-vindo", "Welkom", "Välkommen", "Velkommen", "Tervetuloa",
-  "Witamy", "Vítejte", "Üdvözöljük", "Bine ați venit", "Добро пожаловать",
-  "Ласкаво просимо", "Καλώς ορίσατε", "Hoş geldiniz", "مرحبا", "ברוך הבא",
-  "स्वागत है", "欢迎", "ようこそ", "환영합니다", "Chào mừng",
-  "ยินดีต้อนรับ", "Selamat datang", "Karibu",
-];
-
-const DELAY = 300;
-
-function GreetingAnimation({ onFinish }) {
-  const [index, setIndex] = useState(0);
-
-  useEffect(() => {
-    if (index >= greetings.length) {
-      onFinish();
-      return;
-    }
-    const id = setTimeout(() => setIndex((i) => i + 1), DELAY);
-    return () => clearTimeout(id);
-  }, [index, onFinish]);
-
-  if (index >= greetings.length) return null;
-
-  return (
-    <div className="loader">
-      {}
-      <span key={index} className="greeting" dir="auto">
-        {greetings[index]}
-      </span>
-    </div>
-  );
-}
+import { useCallback, useState } from "react";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { GreetingIntro } from "@/components/greeting-intro";
+import { markIntroSeen, shouldSkipIntro } from "@/lib/intro";
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
+import { Hero } from "@/components/sections/hero";
+import { About } from "@/components/sections/about";
+import { Projects } from "@/components/sections/projects";
+import { Stack } from "@/components/sections/stack";
+import { Contact } from "@/components/sections/contact";
 
 function App() {
-  const [loading, setLoading] = useState(true);
+  const [intro, setIntro] = useState(() => !shouldSkipIntro());
 
-  if (loading) {
-    return <GreetingAnimation onFinish={() => setLoading(false)} />;
-  }
+  const finishIntro = useCallback(() => {
+    markIntroSeen();
+    setIntro(false);
+  }, []);
 
   return (
-    <main>
-      <h1>Contenu de la page</h1>
-    </main>
+    <TooltipProvider>
+      {intro ? <GreetingIntro onFinish={finishIntro} /> : null}
+
+      <a
+        href="#contenu"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-100 focus:rounded-lg focus:bg-foreground focus:px-3 focus:py-2 focus:text-sm focus:text-background"
+      >
+        Aller au contenu
+      </a>
+
+      <SiteHeader />
+
+      <main id="contenu">
+        <Hero />
+        <About />
+        <Projects />
+        <Stack />
+        <Contact />
+      </main>
+
+      <SiteFooter />
+    </TooltipProvider>
   );
 }
 
-export default App
+export default App;
